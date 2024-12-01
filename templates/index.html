@@ -38,7 +38,7 @@
                 <img class="myimg" src="{{ url_for('static', filename='img.png') }}" alt="">
             </div>
 
-            <a class="navbar-brand" href="#">Vydhya</a>
+            <a class="navbar-brand" href="#">Health Center</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -72,23 +72,30 @@
 
 
 <!-- main form of page -->
-<h1 class="mt-4 my-4 text-center text-green"> Vydhya Health Care Center</h1>
+<h1 class="mt-4 my-4 text-center text-green">Health Care Center</h1>
 <div class="container my-4 mt-4" style="background: black; color: white; border-radius: 15px; padding: 40px;">
-   <form action="/predict" method="post">
-    <div class="form-group">
-        <label for="symptoms">Select Symptoms:</label>
-        <select name="symptoms" id="symptoms" class="form-control" multiple>
-            {% for symptom in symptoms_list %}
-                <option value="{{ symptom }}">{{ symptom }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <br>
-    <button type="submit" class="btn btn-danger btn-lg" style="width: 100%; padding: 14px; margin-bottom: 5px;">Predict</button>
-</form>
-{% if message %}
-            <p class="text-danger mt-3">{{ message }}</p>
+    <form action="/predict" method="post">
+        <div class="form-group">
+            <label for="symptoms">Select Symptoms:</label>
+            <input type="text" class="form-control", id="symptoms" name="symptoms" placeholder="type systems such as itching, sleeping, aching etc">
+
+        </div>
+        <br>
+        <button type="button" id="startSpeechRecognition" class="btn btn-primary" style="margin-left:3px;border:1px solid white; border-radius:20px;">
+            Start Speech Recognition
+        </button>
+        <br>
+
+        <!-- Display the transcribed text here -->
+        <div name="mysysms" id="transcription"></div>
+
+        {% if message %}
+        <p>{{ message }}</p>
         {% endif %}
+        <br>
+
+        <button type="submit" class="btn btn-danger btn-lg" style="width: 100%; padding: 14px; margin-bottom: 5px;">Predict</button>
+    </form>
 </div>
 
 
