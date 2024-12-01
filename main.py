@@ -67,25 +67,27 @@ def index():
     return render_template("index.html", symptoms_list=symptoms_list)
 
 # Define a route for the home page
-@app.route('/predict', methods=['GET', 'POST'])
+@app.route('/predict', methods=[ 'POST'])
 def home():
     if request.method == 'POST':
-        symptoms = request.form.getlist('symptoms')  # Get symptoms from dropdown
-        if not symptoms:
+        selected_symptoms = request.form.getlist('symptoms')
+        if not selected_symptoms:
             message = "Please select symptoms."
             return render_template('index.html', message=message, symptoms_list=symptoms_list)
         else:
-            predicted_disease = get_predicted_value(symptoms)
+            predicted_disease = get_predicted_value(selected_symptoms)
             dis_des, precautions, medications, rec_diet, workout = helper(predicted_disease)
 
-            my_precautions = []
-            for i in precautions[0]:
-                my_precautions.append(i)
-
-            return render_template('index.html', predicted_disease=predicted_disease, dis_des=dis_des,
-                                   my_precautions=my_precautions, medications=medications, my_diet=rec_diet,
-                                   workout=workout, symptoms_list=symptoms_list)
-
+            return render_template(
+                'index.html', 
+                predicted_disease=predicted_disease, 
+                dis_des=dis_des,
+                my_precautions=precautions[0],
+                medications=medications,
+                my_diet=rec_diet,
+                workout=workout,
+                symptoms_list=symptoms_list
+            )
 
 
 # about view funtion and path
