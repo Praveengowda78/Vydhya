@@ -1,0 +1,4 @@
+Flask==2.3.2  # Ensure Flask is installed
+numpy==1.25.2  # For numerical operations
+pandas==2.0.3  # For data manipulation
+scikit-learn==1.3.0  # For loading the SVC model and predictions
