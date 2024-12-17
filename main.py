@@ -59,10 +59,13 @@ def get_predicted_value(patient_symptoms):
 # creating routes========================================
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    return render_template("index.html" ,symptoms=all_symptoms)
-
+    selected_symptoms = []  # Initialize an empty list
+    if request.method == 'POST':
+        selected_symptoms = request.form.getlist('symptoms') # Use getlist for multiple selections
+        print(selected_symptoms)
+    return render_template("index.html", symptoms=all_symptoms, selected_symptoms=selected_symptoms)
 # Define a route for the home page
 @app.route('/predict', methods=['GET', 'POST'])
 def home():
