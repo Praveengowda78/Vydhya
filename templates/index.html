@@ -3,12 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> Vydhya Health Care Center</title>
+    <title>Health Care Center</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <style>
-        select { width: 100%; padding: 5px; margin-bottom: 10px; }
-        #selected-symptoms { margin-top: 10px; }
-    </style>
   </head>
 
   <style>
@@ -42,7 +38,7 @@
                 <img class="myimg" src="{{ url_for('static', filename='img.png') }}" alt="">
             </div>
 
-            <a class="navbar-brand" href="#">Vydhya</a>
+            <a class="navbar-brand" href="#">Health Center</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -76,30 +72,19 @@
 
 
 <!-- main form of page -->
-<h1 class="mt-4 my-4 text-center text-green"> Vydhya Health Care Center</h1>
+<h1 class="mt-4 my-4 text-center text-green">Health Care Center</h1>
 <div class="container my-4 mt-4" style="background: black; color: white; border-radius: 15px; padding: 40px;">
-    <form action="/" method="post">
+    <form action="/predict" method="post">
         <div class="form-group">
             <label for="symptoms">Select Symptoms:</label>
-          <select name="symptoms[]" multiple class="form-control" id="symptoms">  </select>
+            <input type="text" class="form-control", id="symptoms" name="symptoms" placeholder="type systems such as itching, sleeping, aching etc">
 
-                    {% for symptom in symptoms %}
-                        <option value="{{ symptom }}" {% if symptom in selected_symptoms %}selected{% endif %}>{{ symptom }}</option>
-                    {% endfor %}
-            </div>
-            <button type="submit" class="btn btn-primary">Show Selected Symptoms</button>
-        <br>
-        <div id="selected-symptoms">
-            {% if selected_symptoms %}
-                <h3>Selected Symptoms:</h3>
-                <ul>
-                    {% for symptom in selected_symptoms %}
-                        <li>{{ symptom }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+        <br>
+        <button type="button" id="startSpeechRecognition" class="btn btn-primary" style="margin-left:3px;border:1px solid white; border-radius:20px;">
+            Start Speech Recognition
+        </button>
+        <br>
 
         <!-- Display the transcribed text here -->
         <div name="mysysms" id="transcription"></div>
