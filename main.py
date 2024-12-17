@@ -63,23 +63,26 @@ def get_predicted_value(patient_symptoms):
 def index():
     return render_template("index.html" ,symptoms=symptoms_dict)
 
-# Define a route for the home page
 @app.route('/predict', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
         symptoms = request.form.get('symptoms')
-        # mysysms = request.form.get('mysysms')
-        # print(mysysms)
         print(symptoms)
-        if symptoms =="Symptoms":
-            message = "Please either write symptoms or you have written misspelled symptoms"
+
+        if not symptoms or symptoms.lower() == "symptoms":
+            message = "Please provide valid symptoms or ensure they are correctly spelled."
             return render_template('index.html', message=message)
         else:
+            # Normalize user input
+            user_symptoms = [s.strip().replace(" ", "_").lower() for s in symptoms.split(',')]
+            
+            # Check if all symptoms are valid
+            invalid_symptoms = [symptom for symptom in user_symptoms if symptom not in symptoms_dict]
+            if invalid_symptoms:
+                message = f"The following symptoms are invalid: {', '.join(invalid_symptoms)}"
+                return render_template('index.html', message=message)
 
-            # Split the user's input into a list of symptoms (assuming they are comma-separated)
-            user_symptoms = [s.strip() for s in symptoms.split(',')]
-            # Remove any extra characters, if any
-            user_symptoms = [symptom.strip("[]' ") for symptom in user_symptoms]
+            # Get predicted disease
             predicted_disease = get_predicted_value(user_symptoms)
             dis_des, precautions, medications, rec_diet, workout = helper(predicted_disease)
 
