@@ -61,7 +61,7 @@ def get_predicted_value(patient_symptoms):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html" ,symptoms=symptoms_dict)
 
 # Define a route for the home page
 @app.route('/predict', methods=['GET', 'POST'])
