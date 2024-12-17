@@ -77,18 +77,27 @@
     <form action="/predict" method="post">
         <div class="form-group">
             <label for="symptoms">Select Symptoms:</label>
-           <select name="symptoms[]" multiple class="form-control">
-          {% for symptom in symptoms %}
-            <option value="{{ symptom }}">{{ symptom }}</option>
-          {% endfor %}
-        </select>
+          <select name="symptoms[]" multiple class="form-control">
+                    {% for symptom in symptoms %}
+                        <option value="{{ symptom }}" {% if symptom in selected_symptoms %}selected{% endif %}>{{ symptom }}</option>
+                    {% endfor %}
+                </select>
 
         </div>
         <br>
-        <button type="button" id="startSpeechRecognition" class="btn btn-primary" style="margin-left:3px;border:1px solid white; border-radius:20px;">
-            Start Speech Recognition
-        </button>
+        <button type="submit">Show Selected Symptoms</button>
         <br>
+        <div id="selected-symptoms">
+            {% if selected_symptoms %}
+                <h3>Selected Symptoms:</h3>
+                <ul>
+                    {% for symptom in selected_symptoms %}
+                        <li>{{ symptom }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
 
         <!-- Display the transcribed text here -->
         <div name="mysysms" id="transcription"></div>
