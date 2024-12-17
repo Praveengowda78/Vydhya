@@ -77,7 +77,11 @@
     <form action="/predict" method="post">
         <div class="form-group">
             <label for="symptoms">Select Symptoms:</label>
-            <input type="text" class="form-control", id="symptoms" name="symptoms" placeholder="type systems such as itching, sleeping, aching etc">
+           <select name="symptoms[]" multiple class="form-control">
+          {% for symptom in symptoms %}
+            <option value="{{ symptom }}">{{ symptom }}</option>
+          {% endfor %}
+        </select>
 
         </div>
         <br>
