@@ -97,6 +97,37 @@ def home():
     return render_template('index.html')
 
 
+@app.route('/voice_predict', methods=['POST'])
+def voice_predict():
+    if request.method == 'POST':
+        # Assuming the voice recognition result is sent as 'voice_symptoms'
+        voice_input = request.form.get('voice_symptoms')  # Example: "skin rash, fever"
+        if not voice_input:
+            message = "No symptoms provided from voice input. Please try again."
+            return render_template('index.html', message=message)
+
+        # Normalize the input
+        user_symptoms = [s.strip().replace(" ", "_").lower() for s in voice_input.split(',')]
+
+        # Validate the symptoms
+        invalid_symptoms = [symptom for symptom in user_symptoms if symptom not in symptoms_dict]
+        if invalid_symptoms:
+            message = f"The following symptoms are invalid: {', '.join(invalid_symptoms)}"
+            return render_template('index.html', message=message)
+
+        # Predict disease
+        predicted_disease = get_predicted_value(user_symptoms)
+        dis_des, precautions, medications, rec_diet, workout = helper(predicted_disease)
+
+        my_precautions = []
+        for i in precautions[0]:
+            my_precautions.append(i)
+
+        return render_template('index.html', predicted_disease=predicted_disease, dis_des=dis_des,
+                               my_precautions=my_precautions, medications=medications, my_diet=rec_diet,
+                               workout=workout)
+
+    return render_template('index.html')
 
 # about view funtion and path
 @app.route('/about')
